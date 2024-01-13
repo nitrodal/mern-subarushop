@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRouter from './routes/user.route.js'
 
 dotenv.config();
 //testing to make sure we are connected, or else error is thrown. 
@@ -19,3 +20,6 @@ app.listen(3000, () => {
     console.log('Server is running on Port 3000!!');
 }
 );
+
+//api route
+app.use('/api/user', userRouter)
