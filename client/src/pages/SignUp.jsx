@@ -4,40 +4,41 @@ import {Link, useNavigate} from 'react-router-dom'
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
-  const [error, setErrorMessage] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+    setFormData({ 
+      ...formData, 
+      [e.target.id]: e.target.value
+    });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.username || !formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields.');
-    }
-    try {
+    try{
       setLoading(true);
-      setErrorMessage(null);
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      console.log(data);
       if (data.success === false) {
-        return setErrorMessage(data.message);
-        
+        setLoading(false);
+        setError(data.message);
+        return;
       }
       setLoading(false);
-      if(res.ok) {
-        navigate('/sign-in');
-      }
+      setError(null);
+      navigate('/sign-in'); //if user successfully creates an account, go to sign-in page
     } catch (error) {
-      setErrorMessage(error.message);
       setLoading(false);
-      
+      setError(error.message);
     }
   };
+    
+  
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
@@ -65,5 +66,5 @@ export default function SignUp() {
       </div>
       
     </div>
-  )
-}
+  );
+  }
