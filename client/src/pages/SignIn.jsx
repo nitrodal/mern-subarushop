@@ -33,17 +33,19 @@ export default function SignIn() {
       });
       const data = await res.json();
       console.log(data);
-  
-      if (data.success === true) {
-        dispatch(signInSuccess(data));
-        navigate("/");
-      } else {
+
+      if (data.success == false) {
         dispatch(signInFailure(data.message));
+        return;
       }
-  
+
+      dispatch(signInSuccess(data));
+      navigate("/");
+
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
+
   };
     
   
