@@ -17,7 +17,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-}, {timestamps: true}
+    avatar:{
+        type: String,
+        default: 'https://logowik.com/content/uploads/images/subaru2725.logowik.com.webp',
+    },
+    },
+ {timestamps: true}
 );
 
 const User = mongoose.model('User', userSchema);
